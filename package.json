@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:wasm" : "wasm-pack build --target web"
   },
   "devDependencies": {
     "typescript": "^4.6.4",
