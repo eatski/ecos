@@ -1,8 +1,4 @@
-import init from '../pkg/ecos_bg.wasm?init'
-
-const fn = () => init({}).then((instance) => {
-  return instance.exports as typeof import('../pkg/ecos_bg.wasm');
-})
+import init,{add} from '../pkg'
 
 export async function setupCounter(element: HTMLButtonElement) {
   let counter = 0
@@ -10,7 +6,7 @@ export async function setupCounter(element: HTMLButtonElement) {
     counter = count
     element.innerHTML = `count is ${counter}`
   }
-  fn().then(({add}) => {
+  init().then(()=> {
     element.addEventListener('click', () => setCounter(add(counter ,1)))
     setCounter(0)
   })

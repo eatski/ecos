@@ -1,6 +1,16 @@
+import { setupCounter } from './counter'
 import './style.css'
 import typescriptLogo from './typescript.svg'
-import { setupCounter } from './counter'
+
+import init,{calculate} from '../pkg'
+
+init().then(() => {
+  console.log(calculate({
+    points: [
+      {x: 100,y: 100},
+    ]
+  }))
+})
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
