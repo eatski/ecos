@@ -25,14 +25,27 @@ pub fn calculate(current: JsValue) -> JsValue {
     let mut rng = rand::thread_rng();
     cloned_state.points.shuffle(&mut rng);
     let head = cloned_state.points.pop().unwrap();
-    let direction = DIRECTIONS.choose(&mut rng).unwrap();
+    let valid_directions = DIRECTIONS.iter().filter(|d| {
+        let new_point = match d {
+            Direction::Up => state::Point { x: head.x, y: head.y - 1 },
+            Direction::Down => state::Point { x: head.x, y: head.y + 1 },
+            Direction::Left => state::Point { x: head.x - 1, y: head.y },
+            Direction::Right => state::Point { x: head.x + 1, y: head.y },
+        };
+        !state.points.contains(&new_point)
+    }).collect::<Vec<_>>();
+    let direction = valid_directions.choose(&mut rng).unwrap();
+
     let new_point = match direction {
         Direction::Up => state::Point { x: head.x, y: head.y - 1 },
         Direction::Down => state::Point { x: head.x, y: head.y + 1 },
         Direction::Left => state::Point { x: head.x - 1, y: head.y },
         Direction::Right => state::Point { x: head.x + 1, y: head.y },
     };
-    state.points.push(new_point);
+
+    if !state.points.contains(&new_point) {
+        state.points.push(new_point);
+    }
     serde_wasm_bindgen::to_value(&state).unwrap()
 }
 #[cfg(test)]
