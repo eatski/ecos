@@ -12,9 +12,9 @@ if (canvas) {
       ]
     }
     setInterval(() => {
-      state = calculate(state)
+      state = calculate(state);
       ctx.clearRect(0, 0, canvas.width, canvas.height)
-      state.points.forEach(({x,y}) => {
+      state.points.forEach(({x,y}: any) => {
         ctx.fillRect(x, y, 1, 1)
       })
     },1)

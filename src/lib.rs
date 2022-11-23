@@ -34,13 +34,14 @@ pub fn calculate(current: JsValue) -> JsValue {
         };
         !state.points.contains(&new_point)
     }).collect::<Vec<_>>();
-    let direction = valid_directions.choose(&mut rng).unwrap();
+    let direction = valid_directions.choose(&mut rng);
 
     let new_point = match direction {
-        Direction::Up => state::Point { x: head.x, y: head.y - 1 },
-        Direction::Down => state::Point { x: head.x, y: head.y + 1 },
-        Direction::Left => state::Point { x: head.x - 1, y: head.y },
-        Direction::Right => state::Point { x: head.x + 1, y: head.y },
+        Some(Direction::Up) => state::Point { x: head.x, y: head.y - 1 },
+        Some(Direction::Down) => state::Point { x: head.x, y: head.y + 1 },
+        Some(Direction::Left) => state::Point { x: head.x - 1, y: head.y },
+        Some(Direction::Right) => state::Point { x: head.x + 1, y: head.y },
+        None => head,
     };
 
     if !state.points.contains(&new_point) {
